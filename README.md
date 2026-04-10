@@ -48,6 +48,7 @@ This project also reflects a hands-on full-stack build that combines backend bus
 -  Church board and church minutes tracking
 -  Prayer list moderation and review
 -  Donation tracking and administration
+-  Permission-Based Access Control and Audit logging
 
 ##  Tech Stack
 
