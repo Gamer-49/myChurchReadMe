@@ -49,7 +49,6 @@ This project also reflects a hands-on full-stack build that combines backend bus
 -  **Email verification** — required before accessing the dashboard
 -  **Role-based access control** — assignable roles (e.g., Elevated Member, top admin) each carrying a set of permissions
 -  **Granular permissions** — individual permission flags (e.g., `invitations.manage`, `users.access.manage`, `leadership.manage`) checked throughout the app
--  **Platform super admin** — highest-privilege account type with unrestricted access
 -  **Activity logging** — admin and public actions recorded with IP address, user agent, and metadata
 
 ### Admin dashboard
@@ -99,14 +98,14 @@ This project also reflects a hands-on full-stack build that combines backend bus
 
 #### Prayer list
 -  View all submitted prayer requests
--  Moderate requests: accept or leave pending
+-  Moderate requests
 
 #### Donations
 -  Admin view and management of all donation submissions
 
 #### Messages / Contact inbox
 -  View all contact form submissions
--  Track read/unread status per message
+-  Manage status per message
 
 #### Church board
 -  Manage board member records
