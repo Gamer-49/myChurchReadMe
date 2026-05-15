@@ -6,8 +6,8 @@ Church website + ministry operations in one place.
 Built with Laravel, React, Inertia.js, and Tailwind CSS.
 
 
->  **Alpha release**  
-> `myChurch` is currently in the **alpha phase**. Some features are still being refined, workflows may change.
+>  **Beta release**  
+> `myChurch` is currently in the **beta phase**. Some features are still being refined.
 
 ##  Overview
 
@@ -31,15 +31,19 @@ This project also reflects a hands-on full-stack build that combines backend bus
 
 ### Public site
 -  **Welcome page** — church info, upcoming schedule (services, missions, outreach), and current/most-recent Sunday service snapshot
+-  **Home carousel** — configurable image/content carousel on the welcome page, pulling from missions, outreach, and schedule items
 -  **Past services archive** — browsable list of published weekly services
 -  **Full public schedule** — all upcoming recurring and one-time events
 -  **Announcements** — publicly visible church announcements
 -  **Outreach page** — published outreach events visible to the community
 -  **Missions page** — published mission campaigns with details
 -  **Prayer request submission** — public form for submitting prayer requests (rate-limited)
--  **Donation form** — public donation submission flow (rate-limited)
+-  **Donation form** — public donation submission flow with fund selection (rate-limited)
 -  **Contact form** — message submission with rate limiting
 -  **About, Directions, Help, and Terms & Privacy** — standard informational pages
+
+### Logged-in member area
+-  **Member home** — personalized home page for authenticated non-admin members
 
 ### Authentication & access control
 -  **Invitation-based registration** — new users register via a secure emailed invitation token
@@ -47,43 +51,48 @@ This project also reflects a hands-on full-stack build that combines backend bus
 -  **Login with email pre-check** — two-step login flow that detects whether an account exists
 -  **Password reset** — forgot-password and reset-password flows
 -  **Email verification** — required before accessing the dashboard
--  **Role-based access control** — assignable roles (e.g., Elevated Member, top admin) each carrying a set of permissions
--  **Granular permissions** — individual permission flags (e.g., `invitations.manage`, `users.access.manage`, `leadership.manage`) checked throughout the app
--  **Activity logging** — admin and public actions recorded with IP address, user agent, and metadata
+-  **Role-based access control** — assignable roles (e.g., Elevated Member, Admin, Public User, Volunteer) each carrying a set of customizable permissions
+-  **Granular permissions** — individual permission flags (e.g., view, create, edit, delete) checked throughout the app
+-  **Activity logging** — admin and public actions recorded with IP address, user agent, and metadata. Full admin tracking for administative items.
+-  **Security logging & risk scoring** — configurable security event logging with country-based risk signals and configurable log retention
 
 ### Admin dashboard
 -  **Dashboard overview** — at-a-glance stats: unread messages, pending prayer requests, pending access requests, total members, active missions, upcoming outreach
+-  **Dashboard role configuration** — configurable widget layout per role so each user type sees the most relevant information
 
 #### Congregation & members
 -  Full CRUD for congregation/member records
--  Fields: name, email, phone, address, gender, birthday, anniversary, joined date, church roll, privilege level, security clearance dates, emergency contact, allergies/needs, notes
+-  Complete member record set including general info, sercuity clearence status, and easily accessable emergency contact info
 -  Phone number auto-formatting
+-  **At-rest encryption** — sensitive member PII is encrypted for migrating existing records
 
 #### Weekly services
 -  Create and manage weekly service records tied to a specific Sunday date
--  Fields: title, description, opening reading & scripture, prayer, opening hymn, songs, children's moment, sermon, announcements, offering doxology, praises & prayer, closing hymn, closing prayer, weekly readings
 -  Rich-text editing with HTML sanitization for sermon and other long-form fields
 -  Image upload per service
--  Carry-over announcements from a previous service
+-  Import from a previous service feature with selectable content to import
 -  Published/unpublished toggle
--  Announcements attached or detached per service
+-  **Printable service bulletins** — print-ready bulletin generation with configurable cover image, border style, and typography settings
 
 #### Announcements
 -  Create, edit, and delete standalone announcements
--  Attach or detach announcements to specific weekly services
+-  Attach or detach announcements to specific weekly services, members or public
 
 #### Schedules
 -  Create one-time and recurring schedule entries
+-  **Calendar view** — visual calendar interface for browsing and managing schedule entries
+-  Pint options available to control what is printed (hide personal reminders, print public and admin only schedules)
 -  Recurring wizard for complex recurrence patterns
 -  Preset recurring schedule upsert (for missions, outreach, and service links)
 -  Update or delete entries by unique ID
--  Public schedule visibility toggle (`usage` flags)
+-  Public schedule visibility toggle
+-  Schedule ownership and user assignment controls
 
 #### Events
 -  General-purpose church event CRUD
 
 #### Outreach
--  Create and manage outreach events (title, description, date, location, time, event type, items to bring)
+-  Create and manage outreach events
 -  Track attendance counts, item counts, and items-given counts
 -  Manage ordered outreach items and purchase records per event
 -  Public visibility toggle per event
@@ -98,14 +107,20 @@ This project also reflects a hands-on full-stack build that combines backend bus
 
 #### Prayer list
 -  View all submitted prayer requests
--  Moderate requests
+-  Moderate requests: accept, fullfilled, create (notes for admins function scheduled for next update)
+-  Customizable print options
 
 #### Donations
 -  Admin view and management of all donation submissions
+-  **Donation funds** — categorized fund management (e.g., general, building, missions) with active/sort-order controls
+-  **Payment gateway integration** — pluggable gateway support for Stripe, PayPal, and Square; gateway settings configurable from admin
+-  **Giving statements** — generate and view donor giving summaries
+-  **My Giving** — logged-in members can view their own donation history
+-  **Donation receipts** — automated email receipts sent to donors on submission
 
 #### Messages / Contact inbox
 -  View all contact form submissions
--  Manage status per message
+-  Track read/unread status per message
 
 #### Church board
 -  Manage board member records
@@ -114,12 +129,13 @@ This project also reflects a hands-on full-stack build that combines backend bus
 -  Leadership settings page
 
 #### Church minutes
--  Create structured meeting minutes (meeting date, time, location, presiding officer, treasurer, secretary, members present/absent, called to order, opening prayer, reading of previous minutes with vote counts, old business items with discussion/action/status, next meeting info, closing prayer, adjournment details)
+-  Create structured meeting minutes
 -  Business items list with sort order
 -  Business updates log per minute
 -  Full revision history per minute record
 -  Editor lock — prevents simultaneous edits by multiple users
 -  Browsable minutes list and detailed show view
+-  Print customization
 
 #### User management
 -  View all users with their roles and permissions
@@ -130,11 +146,19 @@ This project also reflects a hands-on full-stack build that combines backend bus
 ### Settings
 -  **Site profile** — church name, address, phone, email, service times, app logo, print header image, public banner image
 -  **About page settings** — content shown on the public About page
--  **Public outreach settings** — control what outreach information is displayed publicly
--  **Public missions settings** — control what mission information is displayed publicly
+-  **Public outreach settings** — content shown on the public outreach page
+-  **Public missions settings** — content shown on the public mission page
+-  **Home carousel settings** — manage carousel items shown on the public welcome page
+-  **Donation gateway settings** — configure active payment gateway and credentials
+-  **Notification preferences** — per-user control over notification delivery (none, dashboard, email, or both) for each notification type
 -  **User profile** — update display name and email address
 -  **Password** — change account password
 -  **Appearance** — UI appearance preferences
+
+### Notifications
+-  **In-app notifications** — dashboard notification dropdown and widget for real-time alerts
+-  **Email notifications** — email delivery option respecting per-user preferences
+-  **Notification types** — access requests, invitations, announcements, task assignments, prayer list updates, schedule changes, and outreach reminders
 
 ##  Tech Stack
 
@@ -151,9 +175,3 @@ This project also reflects a hands-on full-stack build that combines backend bus
 ##  Project Status
 
 This project is being actively shaped and improved.
-
-Current status:
-- alpha-stage functionality is available
-- core modules are in place
-- UI/UX and workflows are still being refined
-- documentation and presentation assets are still growing
